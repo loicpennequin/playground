@@ -1,0 +1,157 @@
+@font-face {
+ font-family: "Friz Quadrata";
+ src: url("../assets/fonts/Friz Quadrata Std Medium.otf") format("truetype");
+
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background: #white;
+    overflow-x: hidden;
+}
+
+.header-border{
+    height: 60vh;
+    width: 75vw;
+    margin: 0 auto;
+    margin-top: 30px;
+    clip-path: polygon(50% 0%, 100% 0, 88% 100%, 50% 100%, 12% 100%, 0 0);
+    background: linear-gradient(to right, #555 , #aaa, #555);
+    padding: 5px;
+    overflow: hidden;
+    animation-name: path;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in;
+}
+
+header{
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background: white;
+    clip-path: polygon(50% 0%, 100% 0, 88% 100%, 50% 100%, 12% 100%, 0 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(hsl(350, 50%, 50%), hsl(220,60%,75%));
+    opacity: 1;
+    transition: all 1s;
+    z-index: 4;
+    mix-blend-mode: overlay;
+}
+
+header h1{
+    position: relative;
+    z-index: 5;
+    color: rgba(0,0,0,0.5);
+    font-family: "Friz Quadrata";
+    font-size: 6.5em;
+    mix-blend-mode: soft-light;
+    transition: all 1s;
+    transition-delay: 0.5s;
+}
+
+header:hover::after{
+    opacity: 0.5;
+}
+
+header:hover .effect-card::after{
+    transform: none;
+    opacity: 1;
+}
+
+header:hover h1{
+    mix-blend-mode: unset;
+    text-shadow: 5px 5px 15px black;
+    color: white;
+    transition-delay: 1s;
+}
+
+.effect-card{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#888, #333);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    perspective: 500px;
+}
+
+.effect-card::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    opacity: 0;
+    transition: transform 0.3s, opacity 1.5s;
+}
+
+
+.orianna{
+    -webkit-mask-image: url('../assets/img/orianna-mask.png');
+    -webkit-mask-position: right;
+    z-index: 3;
+}
+.orianna::after{
+    background: url('../assets/img/orianna.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translateX(100%);
+    background-position: right;
+    transition-delay: 0.5s;
+}
+
+.jihn{
+    -webkit-mask-image: url('../assets/img/jihn-mask.png');
+    -webkit-mask-position: 40% 0;
+    z-index: 2;
+}
+
+.jihn::after{
+    background: url('../assets/img/jihn.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translateY(100%);
+    background-position: 40% 0;
+}
+
+.fiora{
+    -webkit-mask-image: url('../assets/img/fiora-mask.png');
+    z-index: 3;
+}
+
+.fiora::after{
+    background: url('../assets/img/fiora.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translateX(-100%);
+    background-position: left;
+    transition-delay: 0.25s;
+}
+
+@keyframes path{
+    from{
+        clip-path: polygon(50% 0%, 100% 0, 50% 0, 50% 100%, 50% 0, 0 0);
+    }
+    to{
+        clip-path: polygon(50% 0%, 100% 0, 88% 100%, 50% 100%, 12% 100%, 0 0);
+    }
+}
