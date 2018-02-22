@@ -17,7 +17,7 @@ function render(){
     const width                     = window.innerWidth,
           height                    = window.innerHeight * 0.7,
           header                    = SVG('drawing').size(width, height),
-    //constantes des elements triangle
+    //constantes des elements triangle tu peux t'amuser à modifier les valeurs pour voir ce que ça change
           trnglSide                 = 30,
           trnglColorVariance        = 360,
           trnglPath                 = `0,0 ${trnglSide}, 0 ${trnglSide / 2}, -${Math.sqrt(Math.pow(trnglSide, 2) -  Math.pow(trnglSide / 2, 2))}`, //nique ta mère pythagore
