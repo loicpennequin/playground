@@ -25,12 +25,9 @@ function render(){
           trnglOpacity              = 0.5;
 
 
-    let headerinteractionEnabled    = false,
-        //On utilise un tableau pour pouvoir cibler les triangles individuellement, et un group pour pouvoir les selectionner en tant qu'un seul élément.
+    let  //On utilise un tableau pour pouvoir cibler les triangles individuellement, et un group pour pouvoir les selectionner en tant qu'un seul élément.
         triangles                   = [],
         trnglGroup                  = header.group();
-        // angles                      = [];
-
 
     //initialisation des triangles
     //1) On les génère
@@ -54,15 +51,13 @@ function render(){
                 .transform({rotation: 180}, true)
                 .after( () => {
                     triangle.animate(800).dmove(trnglSide/2, trnglSide/2)
-                    .after( () => {
-                        headerinteractionEnabled = true;
-                        // angles.push(triangle.transform('rotation'));
-                    });
                 });
 
         //4)on leur ajoute l'évènement mouseover pour les faire tourner au survol
         triangle.on('mouseover', () => {
-            triangle.animate(2000).transform({ rotation: 360}, true) //l'argument "true" permet d'ajouter la rotation à celle déjà existantes, sans quoi celle ci est absolue
+            if (true){
+                triangle.animate(2000).transform({ rotation: 360}, true) //l'argument "true" permet d'ajouter la rotation à celle déjà existantes, sans quoi celle ci est absolue
+            }
         });
     });
 
