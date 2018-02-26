@@ -1,0 +1,28 @@
+body
+    // min-height: 100vh
+    max-height: 100vh
+    display: grid
+    grid-template-columns: 1fr 4fr
+    grid-template-rows: 5fr auto 2fr
+    +mobile
+        min-height: none
+        max-height: none
+        display: flex
+        flex-direction: column
+
+
+header
+    grid-column: 1/2
+    grid-row: 2/3
+
+nav
+    grid-column: 1/2
+    grid-row: 3/4
+
+main
+    grid-column: 2/3
+    grid-row: 1/4
+    overflow: hidden
+    +mobile
+        flex: 1
+        min-height: 100vh

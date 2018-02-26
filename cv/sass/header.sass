@@ -1,0 +1,12 @@
+header
+    border-bottom: solid 1px $white
+    h1
+        padding: $spacing-small $spacing-big
+        font-family: $font-title
+        font-size: 4.5em
+        color: $orange
+        @supports (-webkit-background-clip: text)
+            color: transparent
+            background: $orange-to-magenta-h
+            -webkit-background-clip: text
+            filter: drop-shadow(10px 10px 0 transparentize($white, 0.8))

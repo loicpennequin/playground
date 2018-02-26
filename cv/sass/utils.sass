@@ -1,0 +1,51 @@
+/*=============================
+
+    Utilities
+
+    File Structure :
+    1 - colors
+    2 - gradients
+    3 - fonts
+    4 - layout
+    5 - mixins
+    6 - paths
+    ========================*/
+
+
+//COLORS
+$black: hsl(0,0,4%)
+$dark-grey: hsl(0,0,10%)
+$grey: hsl(0,0,30%)
+$light-grey: hsl(0,0,65%)
+$white: hsl(0,0,100%)
+
+$orange: hsl(40, 85%, 75%)
+$magenta: hsl(320, 75%, 40%)
+$purple: hsl(275, 65%, 25%)
+
+//GRADIENTS
+$orange-to-magenta-h : linear-gradient(to right, $orange, $magenta)
+//FONTS
+@font-face
+    font-family: "Royal Twins"
+    src : url('../assets/fonts/royal-twins.ttf')
+
+$font-primary : "Montserrat"
+$font-title : "Royal Twins"
+
+//LAYOUT
+$spacing-small : 8px
+$spacing-medium : 16px
+$spacing-big : 24px
+
+//MIXINS
+=mobile
+    @media screen and (max-width: 768px)
+        @content
+
+=desktop-only
+    @media screen and (min-width: 1024px)
+        @content
+
+//PATHS
+$img-path: '../assets/images/'

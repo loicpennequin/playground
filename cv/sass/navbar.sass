@@ -1,0 +1,30 @@
+nav
+    ul
+        margin-top: $spacing-small
+        display: flex
+        flex-flow: column
+        height: 90%
+        padding-bottom: $spacing-big
+        perspective: 100px
+        overflow: hidden
+    li
+        padding: $spacing-medium
+        cursor: pointer
+        position: relative
+        transition: background-size 0.5s, transform 0.5s
+        &:hover
+            @for $i from 0 through 4
+                $mixed-color : mix($orange, $magenta, 25 * $i)
+                color: $mixed-color
+        @supports ( -webkit-background-clip: text)
+            @for $i from 0 through 4
+                &:nth-of-type(#{$i})
+                    $mixed-color : mix($orange, $magenta, 25 * $i)
+                    background: linear-gradient(to right, mix($white, $mixed-color, 50), $mixed-color ), $white
+                    background-repeat: no-repeat
+                    background-size: 0% 100%
+                    -webkit-background-clip: text
+                    color: transparent
+                &:hover
+                    background-size: 66% 100%
+                    transition: background-size 1.5s, transform 0.5s
