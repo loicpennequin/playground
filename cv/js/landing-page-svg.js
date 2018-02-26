@@ -31,8 +31,32 @@ function renderLandingPageSVG(draw, DOMElement, width, height){
         logoAnimationTime = 1500,
         particlesNumber = 30,
         black = 'hsl(0,0%,10.33%)',
-        background, blackLayer, mask, circle, blur, logo;
+        logoGroup = draw.group(),
+        background, blackLayer, mask, circle, blur, logo, text;
 
+
+    class Particle{
+        constructor(timeout){
+            this.timeout = timeout;
+        }
+
+        init(){
+            // setTimeout( () =>{
+                this.rendered = draw.path()
+                .stroke({color: "#fff", width: 2})
+                .opacity(0)
+                .center(width/2, height/2)
+                .h(1)
+                this.animate()
+            // }, this.timeout)
+        }
+
+        animate(){
+            let duration = 500 + Math.round(Math.random()*1000);
+            this.rendered.rotate(Math.round(Math.random()*360));
+            this.rendered.animate(duration).plot(`M ${width} ${height/2} h 150`).opacity(1).loop()
+        }
+    }
     setupElements();
 
     setTimeout(() =>{
@@ -42,11 +66,19 @@ function renderLandingPageSVG(draw, DOMElement, width, height){
 
     function setupElements(){
         background = draw.image('assets/images/galaxy.jpg')
-                         .loaded(function(loader){this.size(width,width * loader.ratio)})
-                         .center(width/2, height/2).scale(1.5, 1.5),
-        blackLayer = draw.rect(width, height).fill(black),
-        mask       = draw.mask(),
-        circle     = draw.circle(1).center(width/2, height/2).fill(black)
+                         .loaded(function(loader){
+                             if (width >= height){
+                                 this.size(width,width * loader.ratio)
+                             }else {
+                                 this.size(height,height * loader.ratio)
+                             }
+                             this.center(width/2, height/2)
+                                 .scale(1.5, 1.5)
+                         });
+        initParticles();
+        blackLayer = draw.rect(width, height).fill(black);
+        mask       = draw.mask();
+        circle     = draw.circle(1).center(width/2, height/2).fill(black);
 
         blurBackground(blurValue);
         setupInitialMask();
@@ -78,7 +110,6 @@ function renderLandingPageSVG(draw, DOMElement, width, height){
               .size(width);
 
         setTimeout( () => {
-            initParticles()
             unblurBackground(unBlurBackgroundTime, drawLogo, 200);
         }, duration * 0.5);
     };
@@ -87,14 +118,29 @@ function renderLandingPageSVG(draw, DOMElement, width, height){
         const panelWidth    = width/2,
               panelHeight   = height/4
 
+
         logo = draw.path();
         logo.fill({color: black, opacity: 0}).stroke({color: black, width: 3});
+        text = draw.text('Coming Soon')
+                   .fill(draw.gradient('linear', function(stop) {
+                       stop.at(0, 'hsl(40, 85%, 75%)')
+                       stop.at(1, 'hsl(320, 75%, 40%)')
+                   }))
+                   .font({size: panelHeight/2})
+                   .opacity(0)
+                   .center(width/2 + panelWidth/4, panelHeight/2 - 50 )
+                   .attr('class', 'svg-text');
         drawPath(panelWidth, panelHeight);
         logo.animate(logoAnimationTime/4)
             .fill({opacity: 0.5})
             .after( ()=>{
                 animateLogo();
             })
+        setTimeout(()=>{
+            text.animate(1000, 'bounce')
+                .dy(height/3 - 50)
+                .opacity(1);
+        }, logoAnimationTime*1.25);
     };
 
     function drawPath(panelWidth, panelHeight){
@@ -103,13 +149,13 @@ function renderLandingPageSVG(draw, DOMElement, width, height){
             .h(panelWidth/2)
             .c(
                 {x: panelHeight/2, y: 0},
-                {x: panelHeight/2, y: height/4},
-                {x : 0, y: height/4})
+                {x: panelHeight/2, y: panelHeight/2},
+                {x : 0, y: panelHeight})
             .h(-width/2)
             .c(
                 {x: -panelHeight/2, y: 0},
-                {x: -panelHeight/2, y: -height/4},
-                {x : 0, y: -height/4})
+                {x: -panelHeight/2, y: -panelHeight/2},
+                {x : 0, y: -panelHeight})
             .h(width/4)
             .drawAnimated({
                 duration: logoAnimationTime
@@ -134,7 +180,7 @@ function renderLandingPageSVG(draw, DOMElement, width, height){
         logo.animate(1000, 'bounce')
             .plot(newPath);
 
-        // logoSwing();
+        logoSwing();
     }
 
     function logoSwing(){
@@ -142,47 +188,25 @@ function renderLandingPageSVG(draw, DOMElement, width, height){
             logo.animate(500, ">")
                 .rotate(5, width/2, 0)
                 .after(second)
+            text.animate(500, ">")
+                .rotate(5, width/2, 0)
         }
         function second(){
             logo.animate(1000, "<>")
                 .rotate(-5, width/2, 0)
                 .after(third)
+            text.animate(1000, "<>")
+                .rotate(-5, width/2, 0)
         }
         function third(){
             logo.animate(500, "<")
                 .rotate(0, width/2, 0)
                 .after(first)
+            text.animate(500, "<")
+                .rotate(0, width/2, 0)
         }
 
         first();
-    }
-
-    class Particle{
-        constructor(timeout){
-            this.timeout = timeout
-        }
-
-        init(){
-            setTimeout( () =>{
-                this.rendered = draw.path()
-                .stroke({color: "#fff", width: 2})
-                .opacity(0)
-                .center(width/2, height/2)
-                .h(1)
-
-                let mask = draw.mask();
-                mask.add(draw.circle(width, height).fill('#fff'))
-                this.rendered.maskWith(mask);
-
-                this.animate()
-            }, this.timeout)
-        }
-
-        animate(){
-            let duration = 1000 + Math.round(Math.random()*2000);
-            this.rendered.rotate(Math.round(Math.random()*360));
-            this.rendered.animate(duration).plot(`M ${width} ${height/2} h 150`).opacity(1).loop()
-        }
     }
 
     function initParticles(){
@@ -192,10 +216,11 @@ function renderLandingPageSVG(draw, DOMElement, width, height){
         }
     }
 
-    draw.on('mousemove', e =>{
+    document.addEventListener('mousemove', e =>{
         let x = (e.clientX-window.innerWidth/2)/window.innerWidth * width,
             y = (e.clientY-window.innerHeight/2)/window.innerHeight * height,
-            coef = 0.1;
-        background.move(x*coef, y*coef)
+            coef = 0.10;
+
+        background.move(x*coef, y*coef);
     })
 };
